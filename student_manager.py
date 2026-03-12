@@ -24,7 +24,7 @@ class Student_manager:
         return result
     def remove_student(self,student_id):
         for s in self.students:
-            if s in student_id ==student_id:
+            if s.student_id ==student_id:
                 self.students.remove(s)
                 print(f"student with {student_id} is removed")
                 return True
@@ -48,14 +48,39 @@ class Student_manager:
         print(f"the Student {student_id} has been updated successfully")
         return True
     def list_all_students(self):
-        for student in self.students:
-            student.display_info()
+        if not self.students:
+            print("there are no student")
+            return
+        for s in self.students:
+            s.display_info()
+    def get_stats(self):
+        if not self.students:
+            print("there are no students yet")
+            return False
+        avg=[s.get_avg() for s in self.students]
+        stats={
+            "total_students" : len(self.students),
+            "Class_Average" :sum(avg)/len(avg),
+            "Highest_Score" :max(avg),
+            "Lowest_Score" :min(avg),
+            "pass_rate" :(len([a for a in avg if a>=50])/len(avg))*100
+        }
+        for key,value in stats.items():
+            unit="%" if "Average" in key or "rate" in key else ""
+            print(f"{key} : {value:2f}{unit}")
+        return stats
+
     def get_top_students(self,TS):
         if not self.students:
             print("There are no students yet")
             return []
         sorted_students=sorted(self.students,key=lambda s: s.get_avg(),reverse=True)
-                
+        top_s=sorted_students[:TS]
+        print(f"Top {len(top_s)} Students")
+        for s in top_s:
+            print(f"{s.name} :: {s.get_avg():.2f}")
+        return top_s   
+        
             
         
 
