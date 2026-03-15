@@ -10,9 +10,10 @@ class Student_manager:
         if any(s.student_id==student_id  for s in self.students):
             print("the student already exist with",student_id)
             return
-        new_student=Student(student_id,name,age,email,grades=None)
+        new_student=Student(student_id,name,age,email,grades=grades)
         self.students.append(new_student)
         print(f"The student named :: {name} has been added")
+        self._autosave()
     def search_student(self,querry):
         querry=str(querry).lower()
         result=[]
@@ -32,8 +33,8 @@ class Student_manager:
                 self.students.remove(s)
                 print(f"student with {student_id} is removed")
                 return True
-            print(f"no student with {student_id} found")
-            return False
+        print(f"no student with {student_id} found")
+        return False
     def update_student(self,student_id,**kwargs):
         required_student=None
         for s in self.students:
@@ -50,6 +51,7 @@ class Student_manager:
             else:
                 print(f"the attribute doesn't exist for the student {student_id}")
         print(f"the Student {student_id} has been updated successfully")
+        self._autosave()
         return True
     def list_all_students(self):
         if not self.students:
