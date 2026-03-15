@@ -6,7 +6,7 @@ class Student_manager:
         self.students = self.handler.load_data()
     def _autosave(self):
         self.handler.save_data(self.students)
-    def add_student(self,student_id,name,age,email):
+    def add_student(self,student_id,name,age,email,grades=None):
         if any(s.student_id==student_id  for s in self.students):
             print("the student already exist with",student_id)
             return
