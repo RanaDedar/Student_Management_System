@@ -18,8 +18,24 @@ def main_menu():
             name = input("Enter Name: ")
             age = int(input("Enter Age: "))
             email = input("Enter Email: ")
-            manager.add_student(s_id, name, age, email)
-        elif choice == '2':
+            print("Enter grades eg (phy:59, math:56)")
+            grades_input = input("Grades: ")           
+            grades_dict = {}
+            if grades_input:
+                clean_input = grades_input.replace('{', '').replace('}', '').replace('(', '').replace(')', '')
+                clean_input = clean_input.replace(',', ' ')
+                pairs = clean_input.split()
+                
+                for pair in pairs:
+                    if ":" in pair:
+                        parts = pair.split(":")
+                        subject = parts[0].strip()
+                        try:
+                            score = int(parts[1].strip())
+                            grades_dict[subject] = score
+                        except ValueError:
+                            print(f"⚠️ Skipping invalid score for {subject}")
+            manager.add_student(s_id, name, age, email, grades_dict)
             query = input("Search by Name or ID: ")
             manager.search_student(query)
         elif choice == '3':
