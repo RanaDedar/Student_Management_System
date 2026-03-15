@@ -1,7 +1,11 @@
 from student import Student
+from file_handler import FileHandler
 class Student_manager:
     def __init__ (self):
-        self.students=[]
+        self.handler = FileHandler()
+        self.students = self.handler.load_data()
+    def _autosave(self):
+        self.handler.save_data(self.students)
     def add_student(self,student_id,name,age,email):
         if any(s.student_id==student_id  for s in self.students):
             print("the student already exist with",student_id)
